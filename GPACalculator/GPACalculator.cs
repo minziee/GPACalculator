@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace GPACalculator
 {
-    public class GPACalculator
+    public class GPACalculation
     {
         private List<Course> courses;
         private float GPA;
         private int TotalCredits;
         private int TotalGradePoints;
 
-        public GPACalculator(List<Course> courses)
+        public GPACalculation(List<Course> courses)
         { this.courses = courses;}
 
         public float Calculate()
