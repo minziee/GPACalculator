@@ -6,16 +6,16 @@ using System.Threading.Tasks;
 
 namespace GPACalculator
 {
-    public class Course
+    public class Course:Window1
     {
-        public int Grade { get; private set; }
+        public double Grade { get; private set; }
         public int Credits { get; private set; }
         private string CourseTitle { get; set; }
-        public int WeightedGrade;
+        public double WeightedGrade { get; private set; }
 
         public Course()
         {}
-        public Course(int Grade, int Credits, string CourseTitle)
+        public Course(double Grade, int Credits, string CourseTitle)
         {
             this.Grade = Grade;
             this.Credits = Credits;

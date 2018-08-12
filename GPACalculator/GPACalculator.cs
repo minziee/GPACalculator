@@ -9,24 +9,31 @@ namespace GPACalculator
     public class GPACalculation
     {
         private List<Course> courses;
-        private float GPA;
+        private double GPA;
         private int TotalCredits;
-        private int TotalGradePoints;
+        private double TotalWeightedGradePoints;
 
         public GPACalculation(List<Course> courses)
-        { this.courses = courses;}
+        {
+            this.courses = courses;
+            TotalCredits = 0;
+            TotalWeightedGradePoints = 0;
+        }
 
-        public float Calculate()
+        public double Calculate()
         {         
             foreach(Course course in courses)
             {
+                // Add up credits and weighted grade points 
+                // from courses to get totals
                 TotalCredits = TotalCredits + course.Credits;
-                TotalGradePoints = TotalGradePoints + course.Grade;
+                TotalWeightedGradePoints = 
+                    TotalWeightedGradePoints + course.WeightedGrade;
             }
 
-            GPA = ((TotalGradePoints * TotalCredits) / TotalCredits);
+            GPA = (TotalWeightedGradePoints / TotalCredits);
 
-            return GPA;
+            return Math.Round(GPA,2);
         }
     }
 }
