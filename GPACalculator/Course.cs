@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GPACalculator
 {
-    public class Course:Window1
+    public class Course
     {
         public double Grade { get; private set; }
         public int Credits { get; private set; }
