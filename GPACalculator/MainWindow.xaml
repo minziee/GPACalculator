@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GPACalculator"
         mc:Ignorable="d"
-        Title="GPA Calculator" Height="450" Width="800">
+        Title="GPA Calculator" Height="450" Width="800" Background="#FF0F0F0F" Foreground="#FFF0F0F0"
+        WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
@@ -47,7 +48,7 @@
             <TextBlock Text="Course 6"/>
             <TextBox Name="Course6" />
         </StackPanel>
-        
+
         <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Margin="1" VerticalAlignment="Bottom" Grid.Column="1">
             <TextBlock Text="Credits" HorizontalAlignment="Center"/>
             <ComboBox Name="Credits1" Width="120">

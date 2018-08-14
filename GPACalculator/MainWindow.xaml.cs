@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -39,7 +40,8 @@ namespace GPACalculator
 
         private void Calculate_Click(object sender, RoutedEventArgs e)
         {
-            // Group credits, credits, and titles together as valid courses(Assumed valid initially)
+            
+            // Group credits, credits, and titles together as unprocessed/raw courses
             RawCourse RawCourse1 = new RawCourse(Grade1, Credits1, Course1.Text);
             RawCourse RawCourse2 = new RawCourse(Grade2, Credits2, Course2.Text);
             RawCourse RawCourse3 = new RawCourse(Grade3, Credits3, Course3.Text);
@@ -55,74 +57,41 @@ namespace GPACalculator
             //Initialize list of valid courses
             var ValidCourseList = new List<Course>();
 
-            // for each valid course in list  
+            // for each raw course in list  
             foreach (RawCourse course in RawCourseList)
             {
                 // If grades and credits aren't empty the course is valid
                 if (!IsEmpty(course.Grade) && !IsEmpty(course.Credits))
                 {
-                    // Add to course after converting grades and credits
-                    // Add to list of valid courses
-                    ValidCourseList.Add(new Course(ConvertToGrade(course.Grade),
-                        ConvertToCredits(course.Credits), course.title));
+                    // Add to list of valid courses after converting grades and credits             
+                    ValidCourseList.Add(new Course(course.Grade,
+                        course.Credits, course.title));
                 }
             }
 
-
-            // If list does not have a least 1 course
+            // If list does not have a least 1 valid course
             if (ValidCourseList.Count < 1)
             {
                 // Show message box notifying user there were no valid courses
-                MessageBox.Show("No valid courses were added.");
+                MessageBox.Show("No valid courses were added.", "Error");
             }
             else
             {
                 // Calculate GPA from list of valid courses
                 GPACalculation GPACalculator = new GPACalculation(ValidCourseList);
+                double GPA = GPACalculator.Calculate();
                 DataContext = GPACalculator.Calculate();
 
                 // Show message box notifying user and ask if they
-                // TODO: would like to save conents to file.
-                MessageBox.Show("Calculation completed.");
+                // would like to save conents to file.
+                var WantToSave = MessageBox.Show("Calculation completed." +
+                    "\nWould you like to save to file?", "Status", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if(WantToSave == MessageBoxResult.Yes)
+                {
+                    FileWriter fileWriter = new FileWriter(GPA, ValidCourseList);
+                    fileWriter.SaveToFile();
+                }           
 
-            }
-        }
-
-        private int ConvertToCredits(ComboBox Credits)
-        {
-            return int.Parse(Credits.Text);
-        }
-
-        private double ConvertToGrade(ComboBox Grade)
-        {
-
-            // convert string representation of grade to number equivalent
-            switch (Grade.Text.ToString())
-            {
-                case "A":
-                    return 4.0;
-                case "A-":
-                    return 3.7;
-                case "B+":
-                    return 3.3;
-                case "B":
-                    return 3.0;
-                case "B-":
-                    return 2.7;
-                case "C+":
-                    return 2.3;
-                case "C":
-                    return 2.0;
-                case "C-":
-                    return 1.7;
-                case "D+":
-                    return 1.3;
-                case "D":
-                    return 1.0;
-                case "F":
-                    return 0.0;
-                default:
-                    return 0.0;
             }
         }
 
